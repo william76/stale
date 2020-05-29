@@ -2,7 +2,11 @@ import * as core from '@actions/core';
 import {IssueProcessor, IssueProcessorOptions} from './IssueProcessor';
 
 async function run(): Promise<void> {
-  try {
+    try {
+
+    core.info(`>>> github.user.login    : ${github.user.login}`);
+    core.info(`>>> github.context.actor : ${github.context.actor}`);
+
     const args = getAndValidateArgs();
 
     const processor: IssueProcessor = new IssueProcessor(args);
