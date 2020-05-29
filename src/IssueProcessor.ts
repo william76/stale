@@ -98,7 +98,6 @@ export class IssueProcessor {
 
   async processIssues(page: number = 1): Promise<number> {
 
-    // core.info(`>>> github.user.login    : ${github.user.login}`);
     core.info(`>>> github.context.actor : ${github.context.actor}`);
 
     // get the next batch of issues
@@ -252,6 +251,10 @@ export class IssueProcessor {
     // find any comments since the date
     const comments = await this.listIssueComments(issue.number, sinceDate);
 
+    // This filters out comments if the commenter and workflow actor are the same.
+    // it's a horrible hack b/c the authors can't figure out how to fix a race condition.
+    core.info(`>>> github.context.actor  : ${github.context.actor}`);
+    //core.info(`>>> comment.user.login    : ${comment.user.login}`);
     const filteredComments = comments.filter(
       comment =>
         comment.user.type === 'User' &&

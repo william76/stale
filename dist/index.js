@@ -8649,7 +8649,6 @@ class IssueProcessor {
     }
     processIssues(page = 1) {
         return __awaiter(this, void 0, void 0, function* () {
-            // core.info(`>>> github.user.login    : ${github.user.login}`);
             core.info(`>>> github.context.actor : ${github.context.actor}`);
             // get the next batch of issues
             const issues = yield this.getIssues(page);
@@ -8747,6 +8746,10 @@ class IssueProcessor {
             }
             // find any comments since the date
             const comments = yield this.listIssueComments(issue.number, sinceDate);
+            // This filters out comments if the commenter and workflow actor are the same.
+            // it's a horrible hack b/c the authors can't figure out how to fix a race condition.
+            core.info(`>>> github.context.actor  : ${github.context.actor}`);
+            //core.info(`>>> comment.user.login    : ${comment.user.login}`);
             const filteredComments = comments.filter(comment => comment.user.type === 'User' &&
                 comment.user.login !== github.context.actor);
             core.info(`Comments not made by ${github.context.actor} or another bot: ${filteredComments.length}`);
