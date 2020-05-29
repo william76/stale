@@ -97,6 +97,10 @@ export class IssueProcessor {
   }
 
   async processIssues(page: number = 1): Promise<number> {
+
+    // core.info(`>>> github.user.login    : ${github.user.login}`);
+    core.info(`>>> github.context.actor : ${github.context.actor}`);
+
     // get the next batch of issues
     const issues: Issue[] = await this.getIssues(page);
     this.operationsLeft -= 1;
