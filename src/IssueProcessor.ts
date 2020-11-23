@@ -77,6 +77,8 @@ export class IssueProcessor {
     this.operationsLeft = options.operationsPerRun;
     this.client = new github.GitHub(options.repoToken);
 
+    core.info(`Action running as user: ${github.context.actor}`);
+
     if (getIssues) {
       this.getIssues = getIssues;
     }
